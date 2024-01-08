@@ -42,7 +42,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100 flex justify-between">
                 <div class="border-b border-gray-200 dark:border-gray-700 mb-4">
                     <ul class="flex flex-wrap -mb-px" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
-                        <li class=" mr-2" role="presentation">
+                        <li class=" mr-2" role="presentation" onclick="showTasks('all')">
                             <button class="inline-flex text-gray-500 hover:text-gray-600 hover:border-gray-300 rounded-t-lg py-4 px-4 text-sm font-medium text-center border-transparent border-b-2 dark:text-gray-400 dark:hover:text-gray-300" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">
                             <svg class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
@@ -50,7 +50,7 @@
                             All ({{ $allCount }})
                             </button>
                         </li>
-                        <li class="mr-2" role="presentation">
+                        <li class="mr-2" role="presentation" onclick="showTasks('open')">
                             <button class="inline-flex text-gray-500 hover:text-gray-600 hover:border-gray-300 rounded-t-lg py-4 px-4 text-sm font-medium text-center border-transparent border-b-2 dark:text-gray-400 dark:hover:text-gray-300 active" id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="true">
                             <svg xmlns="http://www.w3.org/2000/svg" height="16" width="18" viewBox="0 0 576 512" class="mr-2">
                                 <path d="M527.9 224H480v-48c0-26.5-21.5-48-48-48H272l-64-64H48C21.5 64 0 85.5 0 112v288c0 26.5 21.5 48 48 48h400c16.5 0 31.9-8.5 40.7-22.6l79.9-128c20-31.9-3-73.4-40.7-73.4zM48 118c0-3.3 2.7-6 6-6h134.1l64 64H426c3.3 0 6 2.7 6 6v42H152c-16.8 0-32.4 8.8-41.1 23.2L48 351.4zm400 282H72l77.2-128H528z" />
@@ -58,7 +58,7 @@
                             Open ({{ $open }})
                             </button>
                         </li>
-                        <li class="mr-2" role="presentation">
+                        <li class="mr-2" role="presentation" onclick="showTasks('completed')">
                             <button class="inline-flex text-gray-500 hover:text-gray-600 hover:border-gray-300 rounded-t-lg py-4 px-4 text-sm font-medium text-center border-transparent border-b-2 dark:text-gray-400 dark:hover:text-gray-300" id="settings-tab" data-tabs-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false">
                             <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512" class="mr-2">
                                 <path d="M152.1 38.2c9.9 8.9 10.7 24 1.8 33.9l-72 80c-4.4 4.9-10.6 7.8-17.2 7.9s-12.9-2.4-17.6-7L7 113C-2.3 103.6-2.3 88.4 7 79s24.6-9.4 33.9 0l22.1 22.1 55.1-61.2c8.9-9.9 24-10.7 33.9-1.8zm0 160c9.9 8.9 10.7 24 1.8 33.9l-72 80c-4.4 4.9-10.6 7.8-17.2 7.9s-12.9-2.4-17.6-7L7 273c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l22.1 22.1 55.1-61.2c8.9-9.9 24-10.7 33.9-1.8zM224 96c0-17.7 14.3-32 32-32H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H256c-17.7 0-32-14.3-32-32zm0 160c0-17.7 14.3-32 32-32H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H256c-17.7 0-32-14.3-32-32zM160 416c0-17.7 14.3-32 32-32H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H192c-17.7 0-32-14.3-32-32zM48 368a48 48 0 1 1 0 96 48 48 0 1 1 0-96z" />
@@ -83,10 +83,10 @@
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100 text-center antialiased" >
-                    <ul id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <ul id="userTags">
                         @if(count($userTasks) >= 1)
                         @foreach($userTasks as $task)
-                        <li class="flex justify-between box-border bg-gray-300 border rounded-md text-gray-700 mb-5 border-l-8 {{ $task->status ? 'border-green-600' : 'border-yellow-600' }}  px-4 py-4">
+                        <li data-type="{{ $task->status ? 'completed' : 'open' }}" class="flex justify-between box-border bg-gray-300 border rounded-md text-gray-700 mb-5 border-l-8 {{ $task->status ? 'border-green-600' : 'border-yellow-600' }}  px-4 py-4">
                             <div class="text-left truncate">
                                 <div class="flex justify-around text-base leading-6 font-bold">
                                     <input onclick="updateStatus({{$task->id}})" type="checkbox" class="mr-2 relative flex h-[20px] min-h-[20px] w-[20px] min-w-[20px] appearance-none items-center 
@@ -211,6 +211,25 @@
                 console.error('Error updating status:');
             }
             });
-      }
+        }
+
+        function showTasks(type) {
+            var userTagsUl = document.getElementById('userTags');
+            if (userTagsUl) {
+                var listItems = userTagsUl.querySelectorAll('li');
+                listItems.forEach(function(item) {
+                    // Get the data-type attribute value
+                    var itemType = item.getAttribute('data-type');
+                    if (type === 'all') {
+                        item.style.display = 'flex';
+                    }
+                    else if (itemType === type) {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+        }
     </script>
 </x-app-layout>
