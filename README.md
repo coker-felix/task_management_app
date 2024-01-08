@@ -1,7 +1,7 @@
 # EITSEC Technologies 
 
 ## How to Run
-1. Clone Project `git clone https://github.com/coker-felix/task_management_app`
+1. Clone Project `git clone https://github.com/coker-felix/task_management_app.git`
 2. install packages `composer install`
 3. Generate App key `php artisan key:generate`
 4. Add DB info.
